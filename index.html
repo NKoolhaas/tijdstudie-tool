@@ -386,15 +386,9 @@ tr.bottleneck .bar i{background:var(--bottleneck)}
     const input = e.target;
     const name = input.value.trim();
     if (!name || !active || active.idx !== null) return;
-    const elapsed = (performance.now() - active.startTs) / 1000;
-    const newStep = { id: idSeq++, name, va: false, total: elapsed, count: 1, cyclesSeen: 1 };
+    const newStep = { id: idSeq++, name, va: false, total: 0, count: 0, cyclesSeen: 0 };
     steps.push(newStep);
-    const newIdx = steps.length - 1;
-    active.touched.add(newIdx);
-    active.cycleCounts.set(newIdx, 1);
-    log.push({ cycle: active.cycleNumber, name: newStep.name, seconds: elapsed });
-    active.idx = newIdx;
-    active.startTs = performance.now();
+    active.idx = steps.length - 1; // the clock keeps running from the moment you touched this field — it is not restarted here
     quickAddPending = false; pendingPrevIdx = null;
     $('liveName').textContent = newStep.name;
     input.value = '';
