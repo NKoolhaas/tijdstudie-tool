@@ -150,8 +150,8 @@ tr.bottleneck .bar i{background:var(--bottleneck)}
     <div id="chronoView" style="display:none"></div>
     <div class="row" style="margin-top:14px" id="resetRow">
       <button class="btn" id="exportBtn" style="display:none">Exporteren als CSV</button>
-      <button class="btn danger" id="resetBtn">Alles wissen</button>
-      <button class="btn danger" id="resetConfirmBtn" style="display:none">Zeker weten? Tik om te bevestigen</button>
+      <button class="btn danger" id="resetBtn">Metingen wissen</button>
+      <button class="btn danger" id="resetConfirmBtn" style="display:none">Metingen wissen, stappen blijven staan — bevestig</button>
       <button class="btn" id="resetCancelBtn" style="display:none">Annuleren</button>
     </div>
   </div>
@@ -520,7 +520,8 @@ tr.bottleneck .bar i{background:var(--bottleneck)}
     $('resetCancelBtn').style.display = 'none';
   });
   $('resetConfirmBtn').addEventListener('click', () => {
-    steps = []; active = null; idSeq = 1; totalCycles = 0; log = [];
+    steps = steps.map(s => ({ ...s, total: 0, count: 0, cyclesSeen: 0 }));
+    active = null; totalCycles = 0; log = [];
     setView('summary');
     save(); renderSteps(); renderResults(); showDockSetup();
     $('resetBtn').style.display = 'inline-block';
